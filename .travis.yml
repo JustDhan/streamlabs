@@ -1,0 +1,22 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t cfaguilera20/streamlabs-aws -f Dockerfile.dev .
+
+script:
+    - docker run cfaguilera20/streamlabs-aws npm run test -- --coverage
+
+deploy:
+    provider: elasticbeanstalk
+    region: 'us-east-1'
+    app: 'streamlabs-aws'
+    env: 'StreamlabsAws-env'
+    bucket_name: 'elasticbeanstalk-us-east-1-330478549731'
+    bucket_path: 'streamlabs-aws'
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+        secure: '$AWS_SECRET_KEY'
