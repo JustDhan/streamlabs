@@ -1,28 +1,60 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import asyncComponent from './hoc/asyncComponent/asyncComponent';
+
+import Layout from './hoc/Layout/Layout';
+import Auth from './containers/Auth/Auth';
+import * as actions from './store/actions/index';
+
+const asyncStreamer = asyncComponent(() => {
+    return import('./containers/Streamer/Streamer');
+});
+const asyncLogout = asyncComponent(() => {
+    return import('./containers/Auth/Logout/Logout');
+});
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Streamlabs
-          </a>
-        </header>
-      </div>
-    );
-  }
+    componentDidMount() {
+        this.props.onTryAutoSignup();
+    }
+
+    render() {
+        let routes = (
+            <Switch>
+                <Route path="/streamer" component={asyncStreamer} />
+                <Route path="/" exact component={Auth} />
+                <Redirect to="/" />
+            </Switch>
+        );
+
+        if (this.props.isAuthenticated) {
+            routes = (
+                <Switch>
+                    <Route path="/logout" component={asyncLogout} />
+                </Switch>
+            );
+        }
+
+        return <Layout>{routes}</Layout>;
+    }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.token !== null
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onTryAutoSignup: () => dispatch(actions.authCheckState())
+    };
+};
+
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(App)
+);
