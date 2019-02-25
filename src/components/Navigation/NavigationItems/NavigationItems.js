@@ -4,17 +4,15 @@ import NavigationItem from './NavigationItem/NavigationItem';
 const navigationItems = props => (
     <div>
         {props.isAuthenticated ? (
-            <NavigationItem link="/" exact>
-                HOME
+            <NavigationItem link="/streamer" exact>
+                STREAMER
             </NavigationItem>
         ) : (
             <NavigationItem link="/" exact>
                 LOGIN
             </NavigationItem>
         )}
-        <NavigationItem link="/streamer" exact>
-            STREAMER
-        </NavigationItem>
+
         {props.isAuthenticated ? (
             <NavigationItem link="/logout" exact>
                 LOGOUT

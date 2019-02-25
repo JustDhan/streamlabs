@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
 
-class Logout extends Component {
+class Callback extends Component {
     componentDidMount() {
-        this.props.onLogout();
+        const parsed = queryString.parse(this.props.location.hash);
+        if (parsed.access_token) {
+            this.props.onAuth(parsed.access_token);
+        }
     }
 
     render() {
@@ -16,11 +20,11 @@ class Logout extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLogout: () => dispatch(actions.logout())
+        onAuth: accessToken => dispatch(actions.auth(accessToken))
     };
 };
 
 export default connect(
     null,
     mapDispatchToProps
-)(Logout);
+)(Callback);

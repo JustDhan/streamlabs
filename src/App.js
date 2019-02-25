@@ -13,6 +13,9 @@ const asyncStreamer = asyncComponent(() => {
 const asyncLogout = asyncComponent(() => {
     return import('./containers/Auth/Logout/Logout');
 });
+const asyncAuthCallback = asyncComponent(() => {
+    return import('./containers/Auth/Callback/Callback');
+});
 
 class App extends Component {
     componentDidMount() {
@@ -22,7 +25,7 @@ class App extends Component {
     render() {
         let routes = (
             <Switch>
-                <Route path="/streamer" component={asyncStreamer} />
+                <Route path="/auth/callback" component={asyncAuthCallback} />
                 <Route path="/" exact component={Auth} />
                 <Redirect to="/" />
             </Switch>
@@ -31,7 +34,9 @@ class App extends Component {
         if (this.props.isAuthenticated) {
             routes = (
                 <Switch>
+                    <Route path="/streamer" component={asyncStreamer} />
                     <Route path="/logout" component={asyncLogout} />
+                    <Redirect to="/streamer" />
                 </Switch>
             );
         }

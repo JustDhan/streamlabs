@@ -7,13 +7,7 @@ const styles = theme => ({});
 
 export class Streamer extends Component {
     render() {
-        let contenet = this.props.isAuthenticated ? (
-            <p>Streamer</p>
-        ) : (
-            <p>Please login.</p>
-        );
-
-        return contenet;
+        return <p>You are logged in !</p>;
     }
 }
 

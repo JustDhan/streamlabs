@@ -10,7 +10,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import authReducer from './store/reducers/auth';
-import streamerReducer from './store/reducers/streamer';
+import { watchAuth } from './store/sagas/index';
 
 const composeEnhancers =
     process.env.NODE_ENV === 'development'
@@ -18,8 +18,7 @@ const composeEnhancers =
         : null || compose;
 
 const rootReducer = combineReducers({
-    auth: authReducer,
-    streamer: streamerReducer
+    auth: authReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -30,7 +29,7 @@ const store = createStore(
 );
 
 // Sagas
-//sagaMiddleware.run(watchStreamer);
+sagaMiddleware.run(watchAuth);
 
 const app = (
     <Provider store={store}>

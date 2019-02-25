@@ -1,16 +1,15 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
+
+export const authSuccess = token => {
+    return {
+        type: actionTypes.AUTH_SUCCESS,
+        idToken: token
+    };
+};
 
 export const authStart = () => {
     return {
         type: actionTypes.AUTH_START
-    };
-};
-
-export const authSuccess = (token, userId) => {
-    return {
-        type: actionTypes.AUTH_SUCCESS,
-        idToken: token,
-        userId: userId
     };
 };
 
@@ -40,19 +39,10 @@ export const checkAuthTimeout = exirationTime => {
     };
 };
 
-export const auth = (email, password, isSignup) => {
+export const auth = token => {
     return {
         type: actionTypes.AUTH_USER,
-        email: email,
-        password: password,
-        isSignup: isSignup
-    };
-};
-
-export const setAuthRedirectPath = path => {
-    return {
-        type: actionTypes.SET_AUTH_REDIRECT_PATH,
-        path: path
+        idToken: token
     };
 };
 
