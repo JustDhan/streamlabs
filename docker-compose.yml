@@ -2,7 +2,7 @@ version: '2'
 services:
   web:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile.dev
     ports: 
       - "3000:3000"
@@ -11,7 +11,7 @@ services:
       - /srv/dev-disk-by-id-ata-CT120BX500SSD1_1921E1843F57-part4/docker-apps/StreamLabs:/app
   tests:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile.dev
     volumes:
       - /app/node_modules
