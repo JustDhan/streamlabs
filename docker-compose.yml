@@ -6,6 +6,11 @@ services:
       dockerfile: Dockerfile.dev
     ports: 
       - "3000:3000"
+    privileged: true
+    environment:
+      - PUID=1001
+      - PGID=100
+    restart: unless-stopped
     volumes:
       - /app/node_modules
       - /srv/dev-disk-by-id-ata-CT120BX500SSD1_1921E1843F57-part4/docker-apps/StreamLabs:/app
