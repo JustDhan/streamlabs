@@ -2,10 +2,18 @@ version: '2'
 services:
   web:
     build:
-      context: .
+      context: ./
       dockerfile: Dockerfile.dev
     ports: 
       - "3000:3000"
     volumes:
-      - /srv/dev-disk-by-id-ata-CT120BX500SSD1_1921E1843F57-part4/docker-apps/StreamLabs/node:/app/node_modules
+      - /app/node_modules
       - /srv/dev-disk-by-id-ata-CT120BX500SSD1_1921E1843F57-part4/docker-apps/StreamLabs:/app
+  tests:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - /srv/dev-disk-by-id-ata-CT120BX500SSD1_1921E1843F57-part4/docker-apps/StreamLabs:/app
+    command: ["npm", "run", "test"]
